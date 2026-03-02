@@ -1,0 +1,52 @@
+name: Feature Request
+description: Suggest a new check, report improvement, or dashboard feature
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We'd love to hear your ideas for improving Siemserva.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the problem or gap you're experiencing.
+      placeholder: "I'm frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would you like?
+      description: Describe the feature or improvement you'd like to see.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of Siemserva does this relate to?
+      options:
+        - Security checks
+        - Dashboard
+        - Reports
+        - SIEM mode
+        - AI analysis
+        - Compliance mapping
+        - Multi-tenant
+        - CLI / usability
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Any other details, mockups, or examples that help explain the request.
+    validations:
+      required: false

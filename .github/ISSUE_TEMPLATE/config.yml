@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussion
+    url: https://github.com/Senserva/Siemserva-Releases/discussions
+    about: Ask questions, share ideas, or start a conversation
+  - name: Email Support
+    url: mailto:support@senserva.com
+    about: Direct support from the Senserva team (for confidential reports only)
