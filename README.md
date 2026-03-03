@@ -65,7 +65,8 @@ Download the latest release from the [Releases](../../releases) page.
 
 Windows releases are **code-signed** with Azure Trusted Signing.
 
-Run with -? to see parmeters and usage.
+Call Siemserva --help for all options.
+Call Siemserva --full-help to open the full HTML help guide in your browser.
 
 ---
 
