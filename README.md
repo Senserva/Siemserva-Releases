@@ -4,6 +4,27 @@
 
 One scan covers every user, device, app, role, and policy in your Entra ID tenant — with compliance mapping, AI-enhanced remediation reports, and agentic remediation script generation.
 
+<p align="center">
+  <!-- MISA Member Badge -->
+  <a href="https://www.senserva.com/misa">
+    <img src="https://img.shields.io/badge/Microsoft-MISA%20Member-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="MISA Member"/>
+  </a>
+  &nbsp;
+  <!-- Microsoft Security Excellence Awards -->
+  <a href="https://www.senserva.com/press">
+    <img src="https://img.shields.io/badge/Microsoft%20Security-ISV%20of%20the%20Year%20Finalist%202024-7B2D8E?style=for-the-badge&logo=microsoft&logoColor=white" alt="Security ISV of the Year Finalist"/>
+  </a>
+  &nbsp;
+  <!-- Azure Marketplace -->
+  <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/senservallc.senserva_multitenant">
+    <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
+  </a>
+</p>
+
+<p align="center">
+  Senserva is a member of the <strong>Microsoft Intelligent Security Association (MISA)</strong> &mdash; invited by Microsoft for deep integration with Microsoft Sentinel, Entra ID, and Intune. Finalist for <strong>Security ISV of the Year</strong> at the 2024 Microsoft Security Excellence Awards.
+</p>
+
 ---
 
 ## Beta Testers Wanted
@@ -39,7 +60,7 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 **SIEM Mode** — continuous monitoring with scheduled scan cycles, multi-tenant support, and automated email alerts for new Critical and High findings.
 
-**AI-Powered Analysis** — context-aware insights, remediation recommendations, and executable PowerShell script generation. Works with any AI provider via copy-paste, or directly via API integration.
+**AI-Powered Analysis** — context-aware insights, remediation recommendations, and executable PowerShell script generation. Direct streaming via the Anthropic Claude API, or copy-paste friendly for any AI tool.
 
 **Compliance Mapping** — every finding maps to **Microsoft Cloud Security Benchmark (MCSB v2)** and **CISA SCuBA** controls with evidence links and justifications.
 
@@ -59,14 +80,13 @@ Download the latest release from the [Releases](../../releases) page.
 
 | Platform | Format |
 |----------|--------|
-| Windows (x64) | `.exe` standalone |
-| (future) Linux (x64) | Binary — `chmod +x siemserva` then run |
-| (future) macOS (x64/arm64) | Binary — `chmod +x siemserva` then run |
+| Windows (x64) | `.exe` standalone, code-signed |
 
-Windows releases are **code-signed** with Azure Trusted Signing.
+Linux and macOS releases are planned for a future version.
 
-Call Siemserva --help for all options.
-Call Siemserva --full-help to open the full HTML help guide in your browser.
+The Windows binary is code-signed with **Azure Trusted Signing** (publisher: **Senserva**). See the release notes for details on SmartScreen and signature verification.
+
+Call Siemserva --help for all options. Call Siemserva --full-help to open the full HTML help guide in your browser.
 
 ---
 
@@ -74,7 +94,7 @@ Call Siemserva --full-help to open the full HTML help guide in your browser.
 
 1. Download the binary for your platform from [Releases](../../releases)
 2. Register a Microsoft Entra ID app with read-only Graph API permissions ([setup guide coming soon](#))
-3. Run: `siemserva --tenant-id YOUR_TENANT_ID`
+3. Run: `siemserva --tenantids YOUR_TENANT_ID`
 4. Review findings in the live dashboard and generate reports with **Ctrl+R**
 
 ---
