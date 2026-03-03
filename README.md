@@ -16,7 +16,7 @@ One scan covers every user, device, app, role, and policy in your Entra ID tenan
   </a>
   &nbsp;
   <!-- Azure Marketplace -->
-  <a href="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/senservallc.senserva_multitenant">
+  <a href="https://azuremarketplace.microsoft.com/en-us/product/apps/senservallc.senserva-siemserva?tab=Overviewt">
     <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
   </a>
 </p>
