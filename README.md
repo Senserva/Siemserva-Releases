@@ -60,10 +60,12 @@ Download the latest release from the [Releases](../../releases) page.
 | Platform | Format |
 |----------|--------|
 | Windows (x64) | `.exe` standalone |
-| Linux (x64) | Binary — `chmod +x siemserva` then run |
-| macOS (x64/arm64) | Binary — `chmod +x siemserva` then run |
+| (future) Linux (x64) | Binary — `chmod +x siemserva` then run |
+| (future) macOS (x64/arm64) | Binary — `chmod +x siemserva` then run |
 
 Windows releases are **code-signed** with Azure Trusted Signing.
+
+Run with -? to see parmeters and usage.
 
 ---
 
