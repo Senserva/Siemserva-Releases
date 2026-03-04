@@ -5,6 +5,16 @@
 One scan covers every user, device, app, role, and policy in your Entra ID tenant — with compliance mapping, AI-enhanced remediation reports, and agentic remediation script generation.
 
 <p align="center">
+  <!-- Beta Badge -->
+  <a href="../../discussions">
+    <img src="https://img.shields.io/badge/Status-Beta-EB7726?style=for-the-badge&logo=rocket&logoColor=white" alt="Beta"/>
+  </a>
+  &nbsp;
+  <!-- Website -->
+  <a href="https://siemserva.senserva.com/">
+    <img src="https://img.shields.io/badge/Website-siemserva.senserva.com-46C2CB?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Siemserva Website"/>
+  </a>
+  &nbsp;
   <!-- MISA Member Badge -->
   <a href="https://www.senserva.com/misa">
     <img src="https://img.shields.io/badge/Microsoft-MISA%20Member-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="MISA Member"/>
@@ -16,7 +26,7 @@ One scan covers every user, device, app, role, and policy in your Entra ID tenan
   </a>
   &nbsp;
   <!-- Azure Marketplace -->
-  <a href="https://azuremarketplace.microsoft.com/en-us/product/apps/senservallc.senserva-siemserva?tab=Overviewt">
+  <a href="https://marketplace.microsoft.com/en-us/product/saas/senservallc.senserva-siemserva?tab=Overview">
     <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
   </a>
 </p>
@@ -125,3 +135,5 @@ We prefer public issues and discussions so that other users can benefit from the
 ## About Senserva
 
 Siemserva is built by [Senserva](https://senserva.com), a security company focused on Microsoft Entra ID protection. We build tools that make enterprise identity security accessible, actionable, and thorough.
+
+**Product website:** [https://siemserva.senserva.com/](https://siemserva.senserva.com/)
