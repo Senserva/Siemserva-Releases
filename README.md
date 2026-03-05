@@ -98,6 +98,8 @@ The Windows binary is code-signed with **Azure Trusted Signing** (publisher: **S
 
 Call Siemserva --help for all options. Call Siemserva --full-help to open the full HTML help guide in your browser.
 
+You must use the --full parameter to get all the features.  And be sure to install the Claude API, it makes a big difference.
+
 ---
 
 ## Quick Start
