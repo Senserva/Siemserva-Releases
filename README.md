@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="bigLogo.png" alt="Senserva" width="600"/>
+</p>
+
 # Siemserva
 
 **Microsoft Entra ID Security Scanner**
