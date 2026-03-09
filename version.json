@@ -1,9 +1,9 @@
 {
   "releases": [
     {
-      "version": "Beta 3.0.0",
-      "tag": "Betav3.0.0",
-      "whatsNew": "Siemserva Beta 3 is awesome!"
+      "version": "Beta 3.0.1",
+      "tag": "Betav3.0.1",
+      "whatsNew": "Siemserva Beta 3.0.0 is even more awesome!"
     }
   ]
 }
