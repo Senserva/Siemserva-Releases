@@ -2,7 +2,8 @@
   "releases": [
     {
       "version": "Beta 3.0.0",
-      "whatsNew": "Beta 3.0.0 — compliance dashboard, AI remediation scripts, and Business Focused Review report"
+      "tag": "Betav3.0.0",
+      "whatsNew": "Siemserva Beta 3 is awesome!"
     }
   ]
 }
