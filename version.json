@@ -3,7 +3,8 @@
     {
       "version": "Beta 3.0.1",
       "tag": "Betav3.0.1",
-      "whatsNew": "Siemserva Beta 3.0.1 is even more awesome!"
+      "whatsNew": "Siemserva Beta 3.0.1 is even more awesome!",
+      "mandatory": true 
     },
     {
       "version": "Beta 3.0.2",
