@@ -2,7 +2,7 @@
   "releases": [
     {
       "version": "Beta 3.0.1",
-      "tag": "Betav3.0.1",
+      "tag": "v0.2.2.Beta",
       "whatsNew": "Siemserva Beta 3.0.1 is even more awesome!",
       "mandatory": true 
     },
