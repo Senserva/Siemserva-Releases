@@ -1,16 +1,10 @@
 {
   "releases": [
     {
-      "version": "Beta 3.0.1",
-      "tag": "v0.2.2.Beta",
-      "whatsNew": "Siemserva Beta 3.0.1 is even more awesome!",
-      "mandatory": true 
+      "version": "Beta 3.0.0",
+      "tag": "v0.3.0.Beta",
+      "whatsNew": "Beta 3.0.0 Adds Agent 365 Audit ++",
+      "mandatory": false 
     },
-    {
-      "version": "Beta 3.0.2",
-      "tag": "V02.2.4.Beta",
-      "whatsNew": "Siemserva Beta 3.0.2 is new!",
-      "mandatory": true 
-    }
   ]
 }
