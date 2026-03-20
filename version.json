@@ -6,5 +6,11 @@
       "whatsNew": "Beta 3.0.0 Adds Agent 365 Audit ++",
       "mandatory": false 
     },
+    {
+      "version": "Beta 3.0.1",
+      "tag": "v0.3.1.Beta",
+      "whatsNew": "Working pretty well",
+      "mandatory": false 
+    },
   ]
 }
