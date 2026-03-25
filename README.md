@@ -87,7 +87,7 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 **Multi-Tenant Support** — scan and monitor multiple Entra ID tenants in a single operation. Portfolio cross-tenant reports for MSPs and MSSPs with portfolio-level risk scoring.
 
-**Cross-Platform&& — runs on Windows, Linux, and macOS. No account required, no cloud pipeline.
+**Cross-Platform** — runs on Windows, Linux, and macOS. No account required, no cloud pipeline.
 
 ---
 
