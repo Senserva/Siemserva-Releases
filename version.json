@@ -12,5 +12,11 @@
       "whatsNew": "Working pretty well",
       "mandatory": false 
     },
+    {
+      "version": "Beta 3.0.2",
+      "tag": "v0.3.2.Beta",
+      "whatsNew": "Mostly Condtional Access Work (a bit more yet to do)",
+      "mandatory": false 
+    },
   ]
 }
