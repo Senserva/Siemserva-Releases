@@ -69,23 +69,25 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 ## Key Features
 
-**580+ Security Checks** across 15 domains — Identity Management, Conditional Access, Privileged Access, Application Security, Endpoint Security, Email Security, M365 Workloads, and more.
+**600+ Security Checks across 15+ domains** — Identity & MFA, Conditional Access (What-If API, 14-day sign-in replay, 30-point coverage matrix), Privileged Access & PIM, Application Security, Endpoint & Intune (120+ policy settings vs. baselines), Email Security, M365 Workloads (SharePoint, Teams, OneDrive, Exchange), Azure Subscriptions, Logging & Detection, AI & Agent Security (Copilot Agent identity discovery), and more. All mapped to 31 MCSB controls and 81 SCuBA codes.
 
-**Live Interactive Dashboard** — findings stream in real time as the scan runs. Severity-coded, searchable, with drill-down details and compliance context on every finding.
+**Live Interactive Dashboard** — full-screen terminal dashboard where findings stream in real time as the scan runs. Severity-coded, searchable, with drill-down details and compliance context on every finding. Delta view shows net-new issues since your last scan.
 
 **SIEM Mode** — continuous monitoring with scheduled scan cycles, multi-tenant support, and automated email alerts for new Critical and High findings.
 
-**AI-Powered Analysis** — context-aware insights, remediation recommendations, and executable PowerShell script generation. Direct streaming via the Anthropic Claude API, or copy-paste friendly for any AI tool.
+**Agentic AI-Powered Analysis** — context-aware insights, remediation recommendations, and production-ready PowerShell script generation (press P on any finding). Full Scan Analysis for executive and technical summaries, Context-Sensitive Q&A in natural language, and Security Insights on any tab. Direct streaming via the Anthropic Claude API, or copy-paste friendly for any AI tool. Grounded in 170+ engineer-authored remediation guides.
 
-**Compliance Mapping** — every finding maps to **Microsoft Cloud Security Benchmark (MCSB v2)** and **CISA SCuBA** controls with evidence links and justifications.
+**Compliance Mapping** — every finding maps to Microsoft Cloud Security Benchmark (MCSB v2, 31 controls) and CISA SCuBA (81 control codes across 7 product families) with evidence links, justifications, and timestamped assessment-ready evidence. Real pass/fail status per control.
 
-**Self-Contained HTML Reports** — four report types (Detailed, Compliance, Business Review, Remediation) with embedded charts, risk heatmaps, and compliance scorecards. No dependencies — opens in any browser, prints to PDF.
+**Six AI-Enhanced HTML Report Types** — Detailed, Compliance, Business Focused Review, Remediation, Audit, and Portfolio. Self-contained HTML with embedded charts, risk heatmaps, and compliance scorecards. One keystroke (Ctrl+R), no dependencies — opens in any browser, prints to PDF.
 
-**No Agents Required** — read-only access via Microsoft Graph API. Nothing to install on your tenant.
+**Scan, Pipe, Automate (SDK Beta 4)** — split into two composable halves: --scan outputs NDJSON, --reporter consumes any NDJSON source. Full headless pipeline, multi-source dashboard merging, and Maester connector included. Query the SQLite graph database (79 edge types, 341 tables) in C#, Python, or PowerShell.
 
-**Multi-Tenant Support** — scan and monitor multiple Entra ID tenants in a single operation.
+**No Agents Required** — read-only access via Microsoft Graph API. Nothing to install on your tenant. All data stays local — no security data transmitted to Senserva or any third party.
 
-**Cross-Platform** — runs on Windows, Linux, and macOS.
+**Multi-Tenant Support** — scan and monitor multiple Entra ID tenants in a single operation. Portfolio cross-tenant reports for MSPs and MSSPs with portfolio-level risk scoring.
+
+**Cross-Platform&& — runs on Windows, Linux, and macOS. No account required, no cloud pipeline.
 
 ---
 
