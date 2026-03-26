@@ -7,7 +7,7 @@
 
 **Microsoft Entra ID Security Scanner**
 
-One scan covers every user, device, app, role, and policy in your Entra ID tenant — with compliance mapping, AI-enhanced remediation reports, and agentic remediation script generation.
+Siemserva combines our team's security expertise with validated agentic AI to quickly find and automate fixing of critical Microsoft 365, Intnued Entra ID and more security gaps.
 
 <p align="center">
   <!-- Beta Badge -->
