@@ -7,7 +7,7 @@
 
 **Microsoft Entra ID Security Scanner**
 
-Siemserva combines our team's security expertise with validated agentic AI to quickly find and automate fixing of critical Microsoft 365, Intnued Entra ID and more security gaps.
+Siemserva combines our team's security expertise with validated agentic AI to quickly find and automate fixing of critical Microsoft 365, Intune, Entra ID and more security gaps.
 
 <p align="center">
   <!-- Beta Badge -->
