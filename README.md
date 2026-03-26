@@ -87,8 +87,6 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 **Multi-Tenant Support** — scan and monitor multiple Entra ID tenants in a single operation. Portfolio cross-tenant reports for MSPs and MSSPs with portfolio-level risk scoring.
 
-**Cross-Platform** — runs on Windows, Linux, and macOS. No account required, no cloud pipeline.
-
 ---
 
 ## Download
@@ -103,7 +101,7 @@ Linux and macOS releases are planned for a future version.
 
 The Windows binary is code-signed with **Azure Trusted Signing** (publisher: **Senserva**). See the release notes for details on SmartScreen and signature verification.
 
-Call Siemserva --help for all options. Call Siemserva --full-help to open the full HTML help guide in your browser.
+Call Siemserva --help for all options. Call siemserva-win-x64.exe --full-help to open the full HTML help guide in your browser.
 
 You must use the --full parameter to get all the features.  And be sure to install the Claude API, it makes a big difference.
 
@@ -120,7 +118,7 @@ You must use the --full parameter to get all the features.  And be sure to insta
 
 ## System Requirements
 
-- Windows 10+, Linux (x64), or macOS (x64/arm64)
+- Windows 10+
 - Microsoft Entra ID tenant with a registered app (read-only Graph API permissions)
 - Internet connection for Microsoft Graph API access
 
