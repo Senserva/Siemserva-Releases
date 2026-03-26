@@ -53,7 +53,7 @@ We are actively looking for beta testers. If you manage Microsoft Entra ID tenan
 
 **What we're looking for:**
 - Entra ID administrators, security engineers, or MSPs managing one or more tenants
-- Any tenant size — from small orgs to large enterprises
+- Any tenant size from small orgs to large enterprises
 
 **Interested?** Reach out at [support@senserva.com](mailto:support@senserva.com) or start a conversation in [Discussions](../../discussions).
 
