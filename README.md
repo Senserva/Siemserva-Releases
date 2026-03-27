@@ -5,9 +5,22 @@
 
 # Siemserva
 
-**Microsoft Entra ID Security Scanner**
+<div align="center">
 
-Siemserva combines our team's security expertise with validated agentic AI to quickly find and automate fixing of critical Microsoft 365, Intune, Entra ID and more security gaps.
+### Every scan delivers deep analysis and production-ready remediation built on our team's security expertise, no AI required.
+
+Add AI and Siemserva goes further. Both provide validated scripts, risk prioritization, and six report types.
+AI output uses prompt guardrails and iterative validation driven by Siemserva's built-in rules engine.
+Best results come from both working together. Add our SDKs and your team becomes part of the loop.
+
+[![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva-Releases?style=for-the-badge&logo=github&label=Star)](https://github.com/Senserva/Siemserva-Releases/stargazers)
+&nbsp;&nbsp;
+[![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva-Releases?style=for-the-badge&logo=github&label=Follow)](https://github.com/Senserva/Siemserva-Releases/watchers)
+
+**The team reads every star notification, it means a lot to them!**
+
+</div>
+
 
 <p align="center">
   <!-- Beta Badge -->
