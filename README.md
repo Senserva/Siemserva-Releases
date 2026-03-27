@@ -40,6 +40,8 @@ Siemserva combines our team's security expertise with validated agentic AI to qu
   Senserva is a member of the <strong>Microsoft Intelligent Security Association (MISA)</strong> &mdash; invited by Microsoft for deep integration with Microsoft Sentinel, Entra ID, and Intune. Finalist for <strong>Security ISV of the Year</strong> at the 2024 Microsoft Security Excellence Awards.
 </p>
 
+Please Star and Follow Us, the Team Loves it and Appreciates you for doing it!
+
 ---
 
 ## Beta Testers Wanted
