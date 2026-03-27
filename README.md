@@ -5,11 +5,16 @@
 
 # Siemserva
 
-### Every scan delivers deep analysis and production-ready remediation built on our team's security expertise, no AI required.
-
-Add AI and Siemserva goes further. Both provide validated scripts, risk prioritization, and six report types.
+Every scan delivers deep analysis and production-ready remediation built on our team's security expertise, no AI required. Add AI and Siemserva goes further. Both provide validated scripts, risk prioritization, and six report types.
 AI output uses prompt guardrails and iterative validation driven by Siemserva's built-in rules engine.
 Best results come from both working together. Add our SDKs and your team becomes part of the loop.
+
+ Senserva is a member of the <strong>Microsoft Intelligent Security Association (MISA)</strong> &mdash; invited by Microsoft for deep integration with Microsoft Sentinel, Entra ID, and Intune. Finalist for <strong>Security ISV of the Year</strong> at the 2024 Microsoft Security Excellence Awards.
+
+> [!NOTE]
+> **Please Star and Follow Us** The team loves it and appreciates you for doing it!
+> 
+> [![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/stargazers) [![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/watchers)
 
 <p align="center">
   <!-- Beta Badge -->
@@ -41,12 +46,6 @@ Best results come from both working together. Add our SDKs and your team becomes
 <p align="center">
   Senserva is a member of the <strong>Microsoft Intelligent Security Association (MISA)</strong> &mdash; invited by Microsoft for deep integration with Microsoft Sentinel, Entra ID, and Intune. Finalist for <strong>Security ISV of the Year</strong> at the 2024 Microsoft Security Excellence Awards.
 </p>
-
-> [!NOTE]
-> **Please Star and Follow Us** The team loves it and appreciates you for doing it!
-> 
-> [![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/stargazers) [![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/watchers)
-
 
 ---
 
