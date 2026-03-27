@@ -16,7 +16,6 @@ Best results come from both working together. Add our SDKs and your team becomes
 > 
 > [![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/stargazers) [![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/watchers)
 
-<p align="center">
   <!-- Beta Badge -->
   <a href="../../discussions">
     <img src="https://img.shields.io/badge/Status-Beta-EB7726?style=for-the-badge&logo=rocket&logoColor=white" alt="Beta"/>
@@ -41,8 +40,6 @@ Best results come from both working together. Add our SDKs and your team becomes
   <a href="https://marketplace.microsoft.com/en-us/product/saas/senservallc.senserva-siemserva?tab=Overview">
     <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
   </a>
-</p>
-
 ---
 
 ## Beta Testers Wanted
