@@ -43,7 +43,7 @@ Siemserva combines our team's security expertise with validated agentic AI to qu
 > [!NOTE]
 > **Please Star and Follow Us** — the team loves it and appreciates you for doing it!
 > 
-> [![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva?style=social)](https://github.com/Senserva/Siemserva/stargazers) [![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva?style=social)](https://github.com/Senserva/Siemserva/watchers)
+> [![GitHub stars](https://img.shields.io/github/stars/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/stargazers) [![GitHub watchers](https://img.shields.io/github/watchers/Senserva/Siemserva-Releases?style=social)](https://github.com/Senserva/Siemserva-Releases/watchers)
 
 
 ---
