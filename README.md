@@ -40,7 +40,7 @@ Best results come from both working together. Add our SDKs and your team becomes
   <a href="https://marketplace.microsoft.com/en-us/product/saas/senservallc.senserva-siemserva?tab=Overview">
     <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
   </a>
----
+
 
 ## Beta Testers Wanted
 
