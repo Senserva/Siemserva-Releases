@@ -3,6 +3,16 @@
   <img src="bigLogo.png" alt="Senserva" width="600"/>
 </p>
 
+---
+
+**Notice: Repository Going Private**
+
+This repository will be made private in advance of our official release.
+Thank you for the great input and feedback from the community.
+If you have starred this repo, you will receive an invitation to continue following development in the private repository.
+
+---
+
 # Siemserva
 
 Every scan delivers deep analysis and production-ready remediation built on our team's security expertise, no AI required. Add AI and Siemserva goes further. Both provide validated scripts, risk prioritization, and six report types.
