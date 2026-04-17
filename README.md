@@ -102,40 +102,6 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 ---
 
-## Download
-
-Download the latest release from the [Releases](../../releases) page.
-
-| Platform | Format |
-|----------|--------|
-| Windows (x64) | `.exe` standalone, code-signed |
-
-Linux and macOS releases are planned for a future version.
-
-The Windows binary is code-signed with **Azure Trusted Signing** (publisher: **Senserva**). See the release notes for details on SmartScreen and signature verification.
-
-Call Siemserva --help for all options. Call siemserva-win-x64.exe --full-help to open the full HTML help guide in your browser.
-
-You must use the --full parameter to get all the features.  And be sure to install the Claude API, it makes a big difference.
-
----
-
-## Quick Start
-
-1. Download the binary for your platform from [Releases](../../releases)
-2. Register a Microsoft Entra ID app with read-only Graph API permissions ([setup guide coming soon](#))
-3. Run: `siemserva --tenantids YOUR_TENANT_ID`
-4. Review findings in the live dashboard and generate reports with **Ctrl+R**
-
----
-
-## System Requirements
-
-- Windows 10+
-- Microsoft Entra ID tenant with a registered app (read-only Graph API permissions)
-- Internet connection for Microsoft Graph API access
-
----
 
 ## Feedback & Support
 
