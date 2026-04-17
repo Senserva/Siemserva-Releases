@@ -5,11 +5,14 @@
 
 ---
 
-**Notice: Repository Going Private**
+**Notice: Repository Changes as we Exit Beta**
 
-This repository will be made private in advance of our official release.
-Thank you for the great input and feedback from the community.
-If you have starred this repo, you will receive an invitation to continue following development in the private repository.
+The Senserva GitHub Committee has voted to keep this repository for the next round of betas, while removing the current beta releases.
+Thank you to everyone who provided feedback — please keep working with us.
+
+Follow this repository and we’ll keep you up to date.
+
+**Product website to get the latest (Free included) :** [https://siemserva.senserva.com/](https://siemserva.senserva.com/)
 
 ---
 
