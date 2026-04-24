@@ -1,0 +1,217 @@
+name: Mirror Private Release to Public
+
+on:
+  workflow_dispatch:
+    inputs:
+      private_repo:
+        description: 'Private build repo (owner/repo)'
+        required: true
+        default: 'senserva/siemserva'
+      release_tag:
+        description: 'Tag of the release to mirror from the private repo'
+        required: true
+      public_tag:
+        description: 'Tag for the public release (defaults to release_tag)'
+        required: false
+      version_name:
+        description: "Human-readable version name for version.json (e.g. 'Beta 3.1.0')"
+        required: false
+      whats_new:
+        description: "Short summary for version.json whatsNew field"
+        required: false
+      prerelease:
+        description: 'Mark as pre-release'
+        type: boolean
+        default: false
+      mandatory:
+        description: 'Mark as mandatory update in version.json'
+        type: boolean
+        default: false
+
+  # Triggered automatically by the private build repo after a successful build.
+  # Expected client_payload fields mirror the workflow_dispatch inputs above.
+  repository_dispatch:
+    types: [new-private-release]
+
+permissions:
+  contents: write
+
+jobs:
+  mirror-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ------------------------------------------------------------------
+      # Normalize inputs from whichever trigger fired
+      # ------------------------------------------------------------------
+      - name: Resolve inputs
+        id: ctx
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            PRIVATE_REPO="${{ github.event.client_payload.private_repo }}"
+            RELEASE_TAG="${{ github.event.client_payload.release_tag }}"
+            PUBLIC_TAG="${{ github.event.client_payload.public_tag }}"
+            VERSION_NAME="${{ github.event.client_payload.version_name }}"
+            WHATS_NEW="${{ github.event.client_payload.whats_new }}"
+            PRERELEASE="${{ github.event.client_payload.prerelease }}"
+            MANDATORY="${{ github.event.client_payload.mandatory }}"
+          else
+            PRIVATE_REPO="${{ github.event.inputs.private_repo }}"
+            RELEASE_TAG="${{ github.event.inputs.release_tag }}"
+            PUBLIC_TAG="${{ github.event.inputs.public_tag }}"
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+            WHATS_NEW="${{ github.event.inputs.whats_new }}"
+            PRERELEASE="${{ github.event.inputs.prerelease }}"
+            MANDATORY="${{ github.event.inputs.mandatory }}"
+          fi
+
+          # Fall back public tag to the private release tag
+          PUBLIC_TAG="${PUBLIC_TAG:-$RELEASE_TAG}"
+          PRERELEASE="${PRERELEASE:-false}"
+          MANDATORY="${MANDATORY:-false}"
+
+          echo "private_repo=$PRIVATE_REPO"   >> $GITHUB_OUTPUT
+          echo "release_tag=$RELEASE_TAG"     >> $GITHUB_OUTPUT
+          echo "public_tag=$PUBLIC_TAG"       >> $GITHUB_OUTPUT
+          echo "version_name=$VERSION_NAME"   >> $GITHUB_OUTPUT
+          echo "whats_new=$WHATS_NEW"         >> $GITHUB_OUTPUT
+          echo "prerelease=$PRERELEASE"       >> $GITHUB_OUTPUT
+          echo "mandatory=$MANDATORY"         >> $GITHUB_OUTPUT
+
+      # ------------------------------------------------------------------
+      # Guard: abort if the public tag already exists
+      # ------------------------------------------------------------------
+      - name: Check public tag does not already exist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PUBLIC_TAG="${{ steps.ctx.outputs.public_tag }}"
+          if gh release view "$PUBLIC_TAG" --repo "${{ github.repository }}" &>/dev/null; then
+            echo "::error::Public release '$PUBLIC_TAG' already exists. Aborting."
+            exit 1
+          fi
+
+      # ------------------------------------------------------------------
+      # Fetch release metadata from the private build repo
+      # ------------------------------------------------------------------
+      - name: Fetch private release metadata
+        id: meta
+        env:
+          PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+        run: |
+          PRIVATE_REPO="${{ steps.ctx.outputs.private_repo }}"
+          RELEASE_TAG="${{ steps.ctx.outputs.release_tag }}"
+
+          RELEASE=$(curl -sf \
+            -H "Authorization: Bearer $PRIVATE_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${PRIVATE_REPO}/releases/tags/${RELEASE_TAG}" \
+            || { echo "::error::Release '${RELEASE_TAG}' not found in ${PRIVATE_REPO}"; exit 1; })
+
+          # Persist release title and body to files (avoids multi-line output escaping)
+          echo "$RELEASE" | jq -r '.name'  > release-title.txt
+          echo "$RELEASE" | jq -r '.body // ""' > release-notes.txt
+
+          # Collect only signed zip assets
+          echo "$RELEASE" | jq -r '
+            .assets[]
+            | select(.name | test("-signed\\.zip$"; "i"))
+            | [.name, .url]
+            | @tsv
+          ' > assets.tsv
+
+          ASSET_COUNT=$(wc -l < assets.tsv | tr -d ' ')
+          if [ "$ASSET_COUNT" -eq 0 ]; then
+            echo "::error::No signed zip assets found in release '${RELEASE_TAG}'."
+            exit 1
+          fi
+
+          echo "Found $ASSET_COUNT signed asset(s):"
+          cat assets.tsv
+
+          echo "asset_count=$ASSET_COUNT" >> $GITHUB_OUTPUT
+
+      # ------------------------------------------------------------------
+      # Download signed zips from the private repo
+      # ------------------------------------------------------------------
+      - name: Download signed assets
+        env:
+          PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+        run: |
+          mkdir -p ./release-assets
+          while IFS=$'\t' read -r name url; do
+            echo "Downloading: $name"
+            curl -sfL \
+              -H "Authorization: Bearer $PRIVATE_TOKEN" \
+              -H "Accept: application/octet-stream" \
+              "$url" \
+              -o "./release-assets/$name"
+          done < assets.tsv
+          echo "--- Downloaded assets ---"
+          ls -lh ./release-assets/
+
+      # ------------------------------------------------------------------
+      # Update version.json and commit
+      # ------------------------------------------------------------------
+      - name: Update version.json
+        run: |
+          PUBLIC_TAG="${{ steps.ctx.outputs.public_tag }}"
+          VERSION_NAME="${{ steps.ctx.outputs.version_name }}"
+          WHATS_NEW="${{ steps.ctx.outputs.whats_new }}"
+          MANDATORY="${{ steps.ctx.outputs.mandatory }}"
+
+          # Fall back version name to the public tag if not supplied
+          VERSION_NAME="${VERSION_NAME:-$PUBLIC_TAG}"
+
+          # Fall back whatsNew to the release title if not supplied
+          if [ -z "$WHATS_NEW" ]; then
+            WHATS_NEW=$(cat release-title.txt)
+          fi
+
+          NEW_ENTRY=$(jq -n \
+            --arg version  "$VERSION_NAME" \
+            --arg tag      "$PUBLIC_TAG" \
+            --arg whatsNew "$WHATS_NEW" \
+            --argjson mandatory "$([ "$MANDATORY" = "true" ] && echo true || echo false)" \
+            '{"version": $version, "tag": $tag, "whatsNew": $whatsNew, "mandatory": $mandatory}')
+
+          jq --argjson entry "$NEW_ENTRY" '.releases += [$entry]' version.json \
+            > version.json.tmp && mv version.json.tmp version.json
+
+          echo "Updated version.json:"
+          cat version.json
+
+      - name: Commit and push version.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          if git diff --cached --quiet; then
+            echo "version.json unchanged — skipping commit."
+          else
+            git commit -m "chore: add ${{ steps.ctx.outputs.public_tag }} to version.json"
+            git push
+          fi
+
+      # ------------------------------------------------------------------
+      # Publish the public release with the signed assets
+      # ------------------------------------------------------------------
+      - name: Create public release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PRERELEASE_FLAG=""
+          if [ "${{ steps.ctx.outputs.prerelease }}" = "true" ]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+
+          gh release create "${{ steps.ctx.outputs.public_tag }}" \
+            --title "$(cat release-title.txt)" \
+            --notes-file release-notes.txt \
+            $PRERELEASE_FLAG \
+            ./release-assets/*
+
+          echo "::notice::Public release '${{ steps.ctx.outputs.public_tag }}' created successfully."
