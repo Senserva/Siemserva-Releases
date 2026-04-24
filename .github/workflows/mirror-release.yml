@@ -1,43 +1,20 @@
-name: Mirror Private Release to Public
+name: Mirror Private Releases to Public
 
 on:
+  schedule:
+    - cron: '0 * * * *'  # Poll hourly
   workflow_dispatch:
     inputs:
       private_repo:
         description: 'Private build repo (owner/repo)'
-        required: true
+        required: false
         default: 'senserva/siemserva'
-      release_tag:
-        description: 'Tag of the release to mirror from the private repo'
-        required: true
-      public_tag:
-        description: 'Tag for the public release (defaults to release_tag)'
-        required: false
-      version_name:
-        description: "Human-readable version name for version.json (e.g. 'Beta 3.1.0')"
-        required: false
-      whats_new:
-        description: "Short summary for version.json whatsNew field"
-        required: false
-      prerelease:
-        description: 'Mark as pre-release'
-        type: boolean
-        default: false
-      mandatory:
-        description: 'Mark as mandatory update in version.json'
-        type: boolean
-        default: false
-
-  # Triggered automatically by the private build repo after a successful build.
-  # Expected client_payload fields mirror the workflow_dispatch inputs above.
-  repository_dispatch:
-    types: [new-private-release]
 
 permissions:
   contents: write
 
 jobs:
-  mirror-release:
+  mirror-releases:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,173 +22,118 @@ jobs:
         uses: actions/checkout@v4
 
       # ------------------------------------------------------------------
-      # Normalize inputs from whichever trigger fired
+      # Fetch all releases from the private build repo
       # ------------------------------------------------------------------
-      - name: Resolve inputs
-        id: ctx
+      - name: Fetch private releases
+        env:
+          PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          PRIVATE_REPO: ${{ github.event.inputs.private_repo || 'senserva/siemserva' }}
         run: |
-          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
-            PRIVATE_REPO="${{ github.event.client_payload.private_repo }}"
-            RELEASE_TAG="${{ github.event.client_payload.release_tag }}"
-            PUBLIC_TAG="${{ github.event.client_payload.public_tag }}"
-            VERSION_NAME="${{ github.event.client_payload.version_name }}"
-            WHATS_NEW="${{ github.event.client_payload.whats_new }}"
-            PRERELEASE="${{ github.event.client_payload.prerelease }}"
-            MANDATORY="${{ github.event.client_payload.mandatory }}"
-          else
-            PRIVATE_REPO="${{ github.event.inputs.private_repo }}"
-            RELEASE_TAG="${{ github.event.inputs.release_tag }}"
-            PUBLIC_TAG="${{ github.event.inputs.public_tag }}"
-            VERSION_NAME="${{ github.event.inputs.version_name }}"
-            WHATS_NEW="${{ github.event.inputs.whats_new }}"
-            PRERELEASE="${{ github.event.inputs.prerelease }}"
-            MANDATORY="${{ github.event.inputs.mandatory }}"
-          fi
+          curl -sf \
+            -H "Authorization: Bearer $PRIVATE_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${PRIVATE_REPO}/releases?per_page=100" \
+            > private-releases.json
 
-          # Fall back public tag to the private release tag
-          PUBLIC_TAG="${PUBLIC_TAG:-$RELEASE_TAG}"
-          PRERELEASE="${PRERELEASE:-false}"
-          MANDATORY="${MANDATORY:-false}"
-
-          echo "private_repo=$PRIVATE_REPO"   >> $GITHUB_OUTPUT
-          echo "release_tag=$RELEASE_TAG"     >> $GITHUB_OUTPUT
-          echo "public_tag=$PUBLIC_TAG"       >> $GITHUB_OUTPUT
-          echo "version_name=$VERSION_NAME"   >> $GITHUB_OUTPUT
-          echo "whats_new=$WHATS_NEW"         >> $GITHUB_OUTPUT
-          echo "prerelease=$PRERELEASE"       >> $GITHUB_OUTPUT
-          echo "mandatory=$MANDATORY"         >> $GITHUB_OUTPUT
+          echo "Private releases found: $(jq length private-releases.json)"
 
       # ------------------------------------------------------------------
-      # Guard: abort if the public tag already exists
+      # Fetch existing public release tags so we know what to skip
       # ------------------------------------------------------------------
-      - name: Check public tag does not already exist
+      - name: Fetch existing public release tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PUBLIC_TAG="${{ steps.ctx.outputs.public_tag }}"
-          if gh release view "$PUBLIC_TAG" --repo "${{ github.repository }}" &>/dev/null; then
-            echo "::error::Public release '$PUBLIC_TAG' already exists. Aborting."
-            exit 1
-          fi
+          gh api "repos/${{ github.repository }}/releases?per_page=100" \
+            --jq '.[].tag_name' > public-tags.txt
+
+          echo "Already published tags:"
+          cat public-tags.txt
 
       # ------------------------------------------------------------------
-      # Fetch release metadata from the private build repo
+      # Mirror each private release that is not yet public.
+      # Process oldest-first so version.json stays in chronological order.
       # ------------------------------------------------------------------
-      - name: Fetch private release metadata
-        id: meta
+      - name: Mirror new releases
         env:
           PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-        run: |
-          PRIVATE_REPO="${{ steps.ctx.outputs.private_repo }}"
-          RELEASE_TAG="${{ steps.ctx.outputs.release_tag }}"
-
-          RELEASE=$(curl -sf \
-            -H "Authorization: Bearer $PRIVATE_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${PRIVATE_REPO}/releases/tags/${RELEASE_TAG}" \
-            || { echo "::error::Release '${RELEASE_TAG}' not found in ${PRIVATE_REPO}"; exit 1; })
-
-          # Persist release title and body to files (avoids multi-line output escaping)
-          echo "$RELEASE" | jq -r '.name'  > release-title.txt
-          echo "$RELEASE" | jq -r '.body // ""' > release-notes.txt
-
-          # Collect only signed zip assets
-          echo "$RELEASE" | jq -r '
-            .assets[]
-            | select(.name | test("-signed\\.zip$"; "i"))
-            | [.name, .url]
-            | @tsv
-          ' > assets.tsv
-
-          ASSET_COUNT=$(wc -l < assets.tsv | tr -d ' ')
-          if [ "$ASSET_COUNT" -eq 0 ]; then
-            echo "::error::No signed zip assets found in release '${RELEASE_TAG}'."
-            exit 1
-          fi
-
-          echo "Found $ASSET_COUNT signed asset(s):"
-          cat assets.tsv
-
-          echo "asset_count=$ASSET_COUNT" >> $GITHUB_OUTPUT
-
-      # ------------------------------------------------------------------
-      # Download signed zips from the private repo
-      # ------------------------------------------------------------------
-      - name: Download signed assets
-        env:
-          PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-        run: |
-          mkdir -p ./release-assets
-          while IFS=$'\t' read -r name url; do
-            echo "Downloading: $name"
-            curl -sfL \
-              -H "Authorization: Bearer $PRIVATE_TOKEN" \
-              -H "Accept: application/octet-stream" \
-              "$url" \
-              -o "./release-assets/$name"
-          done < assets.tsv
-          echo "--- Downloaded assets ---"
-          ls -lh ./release-assets/
-
-      # ------------------------------------------------------------------
-      # Update version.json and commit
-      # ------------------------------------------------------------------
-      - name: Update version.json
-        run: |
-          PUBLIC_TAG="${{ steps.ctx.outputs.public_tag }}"
-          VERSION_NAME="${{ steps.ctx.outputs.version_name }}"
-          WHATS_NEW="${{ steps.ctx.outputs.whats_new }}"
-          MANDATORY="${{ steps.ctx.outputs.mandatory }}"
-
-          # Fall back version name to the public tag if not supplied
-          VERSION_NAME="${VERSION_NAME:-$PUBLIC_TAG}"
-
-          # Fall back whatsNew to the release title if not supplied
-          if [ -z "$WHATS_NEW" ]; then
-            WHATS_NEW=$(cat release-title.txt)
-          fi
-
-          NEW_ENTRY=$(jq -n \
-            --arg version  "$VERSION_NAME" \
-            --arg tag      "$PUBLIC_TAG" \
-            --arg whatsNew "$WHATS_NEW" \
-            --argjson mandatory "$([ "$MANDATORY" = "true" ] && echo true || echo false)" \
-            '{"version": $version, "tag": $tag, "whatsNew": $whatsNew, "mandatory": $mandatory}')
-
-          jq --argjson entry "$NEW_ENTRY" '.releases += [$entry]' version.json \
-            > version.json.tmp && mv version.json.tmp version.json
-
-          echo "Updated version.json:"
-          cat version.json
-
-      - name: Commit and push version.json
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add version.json
-          if git diff --cached --quiet; then
-            echo "version.json unchanged — skipping commit."
-          else
-            git commit -m "chore: add ${{ steps.ctx.outputs.public_tag }} to version.json"
-            git push
-          fi
 
-      # ------------------------------------------------------------------
-      # Publish the public release with the signed assets
-      # ------------------------------------------------------------------
-      - name: Create public release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PRERELEASE_FLAG=""
-          if [ "${{ steps.ctx.outputs.prerelease }}" = "true" ]; then
-            PRERELEASE_FLAG="--prerelease"
-          fi
+          # Reverse so oldest release is processed first
+          jq -c '[.[]] | reverse | .[]' private-releases.json | while IFS= read -r release; do
+            TAG=$(echo "$release" | jq -r '.tag_name')
 
-          gh release create "${{ steps.ctx.outputs.public_tag }}" \
-            --title "$(cat release-title.txt)" \
-            --notes-file release-notes.txt \
-            $PRERELEASE_FLAG \
-            ./release-assets/*
+            # Skip drafts from the private repo
+            if [ "$(echo "$release" | jq -r '.draft')" = "true" ]; then
+              echo "Skipping draft: $TAG"
+              continue
+            fi
 
-          echo "::notice::Public release '${{ steps.ctx.outputs.public_tag }}' created successfully."
+            # Skip if already published publicly
+            if grep -qxF "$TAG" public-tags.txt; then
+              echo "Already published: $TAG"
+              continue
+            fi
+
+            echo "=== Mirroring: $TAG ==="
+
+            echo "$release" | jq -r '.name'       > release-title.txt
+            echo "$release" | jq -r '.body // ""' > release-notes.txt
+            IS_PRERELEASE=$(echo "$release" | jq -r '.prerelease')
+
+            # Collect signed zip assets only
+            echo "$release" | jq -r '
+              .assets[]
+              | select(.name | test("-signed\\.zip$"; "i"))
+              | [.name, .url]
+              | @tsv
+            ' > assets.tsv
+
+            if [ ! -s assets.tsv ]; then
+              echo "::warning::No signed zip assets in $TAG — skipping."
+              continue
+            fi
+
+            # Download signed zips
+            rm -rf ./release-assets && mkdir -p ./release-assets
+            while IFS=$'\t' read -r name url; do
+              echo "  Downloading: $name"
+              curl -sfL \
+                -H "Authorization: Bearer $PRIVATE_TOKEN" \
+                -H "Accept: application/octet-stream" \
+                "$url" \
+                -o "./release-assets/$name"
+            done < assets.tsv
+
+            # Append to version.json if this tag isn't already listed
+            if ! jq -e --arg t "$TAG" '.releases[] | select(.tag == $t)' version.json > /dev/null 2>&1; then
+              TITLE=$(cat release-title.txt)
+              NEW_ENTRY=$(jq -n \
+                --arg version  "$TITLE" \
+                --arg tag      "$TAG" \
+                --arg whatsNew "$TITLE" \
+                '{version: $version, tag: $tag, whatsNew: $whatsNew, mandatory: false}')
+
+              jq --argjson e "$NEW_ENTRY" '.releases += [$e]' version.json > version.json.tmp
+              mv version.json.tmp version.json
+
+              git add version.json
+              git commit -m "chore: add $TAG to version.json"
+              git push
+            fi
+
+            # Publish the release
+            PRERELEASE_FLAG=""
+            [ "$IS_PRERELEASE" = "true" ] && PRERELEASE_FLAG="--prerelease"
+
+            gh release create "$TAG" \
+              --title "$(cat release-title.txt)" \
+              --notes-file release-notes.txt \
+              $PRERELEASE_FLAG \
+              ./release-assets/*
+
+            echo "::notice::Published: $TAG"
+          done
