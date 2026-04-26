@@ -4,18 +4,24 @@
       "version": "Beta 3.0.0",
       "tag": "v0.3.0.Beta",
       "whatsNew": "Beta 3.0.0 Adds Agent 365 Audit ++",
-      "mandatory": false 
+      "mandatory": false
     },
     {
       "version": "Beta 3.0.1",
       "tag": "v0.3.1.Beta",
       "whatsNew": "Working pretty well",
-      "mandatory": false 
+      "mandatory": false
     },
     {
       "version": "Beta 3.0.2",
       "tag": "v0.3.2.Beta",
       "whatsNew": "Mostly Conditional Access Work (a bit more yet to do)",
+      "mandatory": false
+    },
+    {
+      "version": "Siemserva v0.0.0-dev.120",
+      "tag": "v0.0.0-dev.120",
+      "whatsNew": "Siemserva v0.0.0-dev.120",
       "mandatory": false
     }
   ]
