@@ -2,7 +2,7 @@ name: Mirror Private Releases to Public
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Poll hourly
+    - cron: '0 9 * * 1'  # Poll every Monday at 9am UTC
   workflow_dispatch:
 
 permissions:
@@ -60,12 +60,6 @@ jobs:
           # Reverse so oldest release is processed first
           jq -c '[.[]] | reverse | .[]' private-releases.json | while IFS= read -r release; do
             TAG=$(echo "$release" | jq -r '.tag_name')
-
-            # Skip drafts from the private repo
-            if [ "$(echo "$release" | jq -r '.draft')" = "true" ]; then
-              echo "Skipping draft: $TAG"
-              continue
-            fi
 
             # Skip if already published publicly
             if grep -qxF "$TAG" public-tags.txt; then
