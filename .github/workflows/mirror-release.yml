@@ -83,23 +83,10 @@ jobs:
             IS_PRERELEASE=$(echo "$release" | jq -r '.prerelease')
 
             # Strip internal-only content from release notes before publishing
-            python3 - <<'PYEOF'
-import re
-with open('release-notes.txt') as f:
-    notes = f.read()
-# Remove " or `...-unsigned.zip`" options from the AOT table
-notes = re.sub(r' or `siemserva-[^`]+-unsigned\.zip`', '', notes)
-# Remove the Linux AOT row (no signed Linux build is distributed publicly)
-notes = re.sub(r'\| Linux x64 \|[^\n]*\n', '', notes)
-# Remove the entire Non-AOT Builds section through to the next heading
-notes = re.sub(r'\n### Non-AOT Builds.*?(?=\n###|\Z)', '', notes, flags=re.DOTALL)
-# Remove the internal-only disclaimer line
-notes = re.sub(r'\nUnsigned AOT builds[^\n]*', '', notes)
-# Collapse excess blank lines
-notes = re.sub(r'\n{3,}', '\n\n', notes)
-with open('release-notes.txt', 'w') as f:
-    f.write(notes.strip() + '\n')
-PYEOF
+            sed -i 's/ or `siemserva-[^`]*-unsigned\.zip`//g' release-notes.txt
+            sed -i '/| Linux x64 |/d' release-notes.txt
+            sed -i '/^### Non-AOT Builds/,/^$/d' release-notes.txt
+            sed -i '/^Unsigned AOT builds/d' release-notes.txt
 
             # Collect signed zip assets only
             echo "$release" | jq -r '
