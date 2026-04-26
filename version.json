@@ -23,6 +23,12 @@
       "tag": "v0.0.0-dev.120",
       "whatsNew": "Siemserva v0.0.0-dev.120",
       "mandatory": false
+    },
+    {
+      "version": "Siemserva v0.0.0-dev.121",
+      "tag": "v0.0.0-dev.121",
+      "whatsNew": "Siemserva v0.0.0-dev.121",
+      "mandatory": false
     }
   ]
 }
