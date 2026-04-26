@@ -4,11 +4,6 @@ on:
   schedule:
     - cron: '0 * * * *'  # Poll hourly
   workflow_dispatch:
-    inputs:
-      private_repo:
-        description: 'Private build repo (owner/repo)'
-        required: false
-        default: 'senserva/siemserva'
 
 permissions:
   contents: write
@@ -27,7 +22,7 @@ jobs:
       - name: Fetch private releases
         env:
           PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          PRIVATE_REPO: ${{ github.event.inputs.private_repo || 'senserva/siemserva' }}
+          PRIVATE_REPO: ${{ secrets.PRIVATE_REPO }}
         run: |
           curl -sf \
             -H "Authorization: Bearer $PRIVATE_TOKEN" \
