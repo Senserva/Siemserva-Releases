@@ -55,10 +55,9 @@ jobs:
           cat public-tags.txt
 
       # ------------------------------------------------------------------
-      # Mirror each private release that is not yet public.
-      # Process oldest-first so version.json stays in chronological order.
+      # Mirror the latest private release if not yet published publicly.
       # ------------------------------------------------------------------
-      - name: Mirror new releases
+      - name: Mirror latest release
         env:
           PRIVATE_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,78 +65,84 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Reverse so oldest release is processed first
-          jq -c '[.[]] | reverse | .[]' private-releases.json | while IFS= read -r release; do
-            TAG=$(echo "$release" | jq -r '.tag_name')
+          # .[0] is the latest release (GitHub returns newest-first)
+          release=$(jq -c '.[0]' private-releases.json)
 
-            # Skip if already published publicly
-            if grep -qxF "$TAG" public-tags.txt; then
-              echo "Already published: $TAG"
-              continue
-            fi
+          if [ -z "$release" ] || [ "$release" = "null" ]; then
+            echo "No releases found in private repo."
+            exit 0
+          fi
 
-            echo "=== Mirroring: $TAG ==="
+          TAG=$(echo "$release" | jq -r '.tag_name')
+          echo "Latest private release: $TAG"
 
-            echo "$release" | jq -r '.name'       > release-title.txt
-            echo "$release" | jq -r '.body // ""' > release-notes.txt
-            IS_PRERELEASE=$(echo "$release" | jq -r '.prerelease')
+          # Skip if already published publicly
+          if grep -qxF "$TAG" public-tags.txt; then
+            echo "Already published: $TAG — nothing to do."
+            exit 0
+          fi
 
-            # Strip internal-only content from release notes before publishing
-            sed -i 's/ or `siemserva-[^`]*-unsigned\.zip`//g' release-notes.txt
-            sed -i '/| Linux x64 |/d' release-notes.txt
-            sed -i '/^### Non-AOT Builds/,/^$/d' release-notes.txt
-            sed -i '/^Unsigned AOT builds/d' release-notes.txt
+          echo "=== Mirroring: $TAG ==="
 
-            # Collect signed zip assets only
-            echo "$release" | jq -r '
-              .assets[]
-              | select(.name | test("-signed\\.zip$"; "i"))
-              | [.name, .url]
-              | @tsv
-            ' > assets.tsv
+          echo "$release" | jq -r '.name'       > release-title.txt
+          echo "$release" | jq -r '.body // ""' > release-notes.txt
+          IS_PRERELEASE=$(echo "$release" | jq -r '.prerelease')
 
-            if [ ! -s assets.tsv ]; then
-              echo "::warning::No signed zip assets in $TAG — skipping."
-              continue
-            fi
+          # Strip internal-only content from release notes before publishing
+          sed -i 's/ or `siemserva-[^`]*-unsigned\.zip`//g' release-notes.txt
+          sed -i '/| Linux x64 |/d' release-notes.txt
+          sed -i '/^### Non-AOT Builds/,/^$/d' release-notes.txt
+          sed -i '/^Unsigned AOT builds/d' release-notes.txt
 
-            # Download signed zips
-            rm -rf ./release-assets && mkdir -p ./release-assets
-            while IFS=$'\t' read -r name url; do
-              echo "  Downloading: $name"
-              curl -sfL \
-                -H "Authorization: Bearer $PRIVATE_TOKEN" \
-                -H "Accept: application/octet-stream" \
-                "$url" \
-                -o "./release-assets/$name"
-            done < assets.tsv
+          # Collect signed zip assets only
+          echo "$release" | jq -r '
+            .assets[]
+            | select(.name | test("-signed\\.zip$"; "i"))
+            | [.name, .url]
+            | @tsv
+          ' > assets.tsv
 
-            # Append to version.json if this tag isn't already listed
-            if ! jq -e --arg t "$TAG" '.releases[] | select(.tag == $t)' version.json > /dev/null 2>&1; then
-              TITLE=$(cat release-title.txt)
-              NEW_ENTRY=$(jq -n \
-                --arg version  "$TITLE" \
-                --arg tag      "$TAG" \
-                --arg whatsNew "$TITLE" \
-                '{version: $version, tag: $tag, whatsNew: $whatsNew, mandatory: false}')
+          if [ ! -s assets.tsv ]; then
+            echo "::error::No signed zip assets found in $TAG."
+            exit 1
+          fi
 
-              jq --argjson e "$NEW_ENTRY" '.releases += [$e]' version.json > version.json.tmp
-              mv version.json.tmp version.json
+          # Download signed zips
+          mkdir -p ./release-assets
+          while IFS=$'\t' read -r name url; do
+            echo "  Downloading: $name"
+            curl -sfL \
+              -H "Authorization: Bearer $PRIVATE_TOKEN" \
+              -H "Accept: application/octet-stream" \
+              "$url" \
+              -o "./release-assets/$name"
+          done < assets.tsv
 
-              git add version.json
-              git commit -m "chore: add $TAG to version.json"
-              git push
-            fi
+          # Append to version.json if this tag isn't already listed
+          if ! jq -e --arg t "$TAG" '.releases[] | select(.tag == $t)' version.json > /dev/null 2>&1; then
+            TITLE=$(cat release-title.txt)
+            NEW_ENTRY=$(jq -n \
+              --arg version  "$TITLE" \
+              --arg tag      "$TAG" \
+              --arg whatsNew "$TITLE" \
+              '{version: $version, tag: $tag, whatsNew: $whatsNew, mandatory: false}')
 
-            # Publish the release
-            PRERELEASE_FLAG=""
-            [ "$IS_PRERELEASE" = "true" ] && PRERELEASE_FLAG="--prerelease"
+            jq --argjson e "$NEW_ENTRY" '.releases += [$e]' version.json > version.json.tmp
+            mv version.json.tmp version.json
 
-            gh release create "$TAG" \
-              --title "$(cat release-title.txt)" \
-              --notes-file release-notes.txt \
-              $PRERELEASE_FLAG \
-              ./release-assets/*
+            git add version.json
+            git commit -m "chore: add $TAG to version.json"
+            git push
+          fi
 
-            echo "::notice::Published: $TAG"
-          done
+          # Publish the release
+          PRERELEASE_FLAG=""
+          [ "$IS_PRERELEASE" = "true" ] && PRERELEASE_FLAG="--prerelease"
+
+          gh release create "$TAG" \
+            --title "$(cat release-title.txt)" \
+            --notes-file release-notes.txt \
+            $PRERELEASE_FLAG \
+            ./release-assets/*
+
+          echo "::notice::Published: $TAG"
