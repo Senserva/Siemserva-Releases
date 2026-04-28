@@ -29,6 +29,12 @@
       "tag": "v0.0.0-dev.121",
       "whatsNew": "Siemserva v0.0.0-dev.121",
       "mandatory": false
+    },
+    {
+      "version": "Siemserva TheRealRelease2",
+      "tag": "TheRealRelease2",
+      "whatsNew": "Siemserva TheRealRelease2",
+      "mandatory": false
     }
   ]
 }
