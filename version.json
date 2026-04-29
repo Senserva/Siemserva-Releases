@@ -31,9 +31,9 @@
       "mandatory": false
     },
     {
-      "version": "Siemserva TheRealRelease2",
-      "tag": "TheRealRelease2",
-      "whatsNew": "Siemserva TheRealRelease2",
+      "version": "1.0.0.0",
+      "tag": "Siemserva1.0",
+      "whatsNew": "Siemserva Initial Release",
       "mandatory": false
     }
   ]
