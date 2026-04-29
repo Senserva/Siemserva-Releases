@@ -8,7 +8,43 @@
 **The biggest risks are the ones you don't know about.** Siemserva works continuously to find them, plus many other issues, helps you fix them, and gives auditors what they need on the first pass.
 
 Senserva's Security Context Graph, Analysis and Recommendations, combined with Senserva's Trustworthy AI, provide continuous security assurance and remediation for Microsoft 365, Intune, and Entra ID.
+> [!IMPORTANT]
+> ## Downloaded Siemserva? Start here
+>
+> Walk through the official **[Quick Start guide](https://senserva.com/quickstart)** at senserva.com/quickstart for the full setup, configuration, and first-scan walkthrough, or to use our advanced simulation as an easy start.
+>
+### The Siemserva advanced simulation
 
+The advanced simulation gives you a realistic Microsoft 365 and Entra ID tenant to explore, with planted scenarios you can hunt for, including:
+
+- **1,000+ users**, 180 groups, 1,100 devices, 100 apps, and 300 service principals
+- A **Global Admin without MFA** and a **stale Global Admin** still active
+- A **jailbroken iPhone** registered to a privileged user
+- A **Storm-0558 style** token-theft scenario
+- A **helpdesk compromise** path through tiered admin roles
+- Risky Conditional Access gaps, suspicious sign-in signals, and over-permissioned apps
+
+### Why start with the simulation
+
+Same data, every run. Perfect for training, demos, and getting comfortable with the dashboard, reports, and Claude MCP before you scan a live tenant.
+
+### Or scan a real tenant
+
+Or just point Siemserva at a test or live tenant. Siemserva is **read-only** against your Microsoft 365 and Entra ID environment. We surface findings and generate the remediation steps for you, but **you stay in control.** Nothing changes in your tenant unless you run the remediation yourself.
+
+> [!IMPORTANT]
+> ## Recommended path
+>
+> Senserva recommends:
+>
+> 1. **Run a scan against a test tenant first** to get a feel for the tool.
+> 2. **Run the advanced simulation** to really dig into the data and the dashboard.
+> 3. **Scan your working tenants and remediate** the issues Siemserva surfaces.
+>
+> Don't have a test tenant? It is fine to skip step 1 and go straight to the simulation.
+>
+> **Either way, Siemserva is read-only.** We scan your Microsoft 365 and Entra ID environment, surface findings, and generate the remediation steps for you, but **you stay in control.** Nothing changes in your tenant unless you run the remediation yourself.
+> 
 ## Questions and Support
 
 Please use **[Issues](../../issues)** for bug reports and feature requests, and **[Discussions](../../discussions)** for questions, ideas, and Q&A. Keeping the conversation in the open lets everyone share ideas and answers, and helps the next person who runs into the same thing.
