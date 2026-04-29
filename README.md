@@ -3,26 +3,32 @@
   <img src="bigLogo.png" alt="Senserva" width="600"/>
 </p>
 
----
-
-**Notice: Repository Changes as we Exit Beta**
-
-The Senserva GitHub Committee has voted to keep this repository for the next round of betas, while removing the current beta releases.
-Thank you to everyone who provided feedback — please keep working with us.
-
-Follow this repository and we’ll keep you up to date.
-
-**Product website to get the latest (Free included) :** [https://siemserva.senserva.com/](https://siemserva.senserva.com/)
-
----
-
 # Siemserva
 
-Every scan delivers deep analysis and production-ready remediation built on our team's security expertise, no AI required. Add AI and Siemserva goes further. Both provide validated scripts, risk prioritization, and six report types.
-AI output uses prompt guardrails and iterative validation driven by Siemserva's built-in rules engine.
-Best results come from both working together. Add our SDKs and your team becomes part of the loop.
+The biggest risks are the ones you don't know about. Siemserva works continuously to find them, plus many other issues, helps you fix them, and gives auditors what they need on the first pass.
 
- Senserva is a member of the <strong>Microsoft Intelligent Security Association (MISA)</strong> &mdash; invited by Microsoft for deep integration with Microsoft Sentinel, Entra ID, and Intune. Finalist for <strong>Security ISV of the Year</strong> at the 2024 Microsoft Security Excellence Awards.
+Senserva's Security Context Graph, Analysis and Recommendations combined with Senserva's Trustworthy AI provide continuous security assurance and remediation for Microsoft 365, Intune and Entra ID:
+
+600+ hourly checks and log reviews tied to compliance standards, easily integrates with other tools
+Senserva Trustworthy AI creates rich reports and time saving remediation
+Built for Claude. MCP server for Claude Desktop and Code, or call Claude (or any AI) from inside Siemserva
+Industrial strength. 
+
+## Siemserva is Free up to 100 users, $99/month for more. Free to Microsoft MVPs and MISA Members.
+
+# Running it is the best way to learn.
+
+Please grab the latest release and download the zip for your platform.
+
+Run: ./siemserva-osx-arm64 --accept-eula --tenantids on Mac, use siemserva-win-x64 on Windows
+
+On Mac, run chmod +x siemserva-* first, or use the included run-siemserva.sh helper.
+
+Run without parameters to get an interactive setup guide. Run with -? to get basic parameters, --full-help to get detailed help files.
+
+If you are not ready to scan a test or working tenant please use our demo mode, it has a great database with very realistic data with well over 1000 users. Just run siemserva-osx-arm64, or siemserva-win-x64, without any parameters to set this up. 
+
+The demo supports both Claude as an MCP and Siemserva itself. Read SiemservaEvaluationGuide.pdf to get a review of the demo data. Running in demo mode is also good for training. Be sure to run with Claude Desktop if you can, it is a great way to study the data Siemserva creates.
 
 > [!NOTE]
 > **Please Star and Follow Us** The team loves it and appreciates you for doing it!
@@ -54,22 +60,6 @@ Best results come from both working together. Add our SDKs and your team becomes
     <img src="https://img.shields.io/badge/Azure-Marketplace-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white" alt="Azure Marketplace"/>
   </a>
 
-
-## Beta Testers Wanted
-
-We are actively looking for beta testers. If you manage Microsoft Entra ID tenants and want early access to Siemserva, we want to hear from you.
-
-**What you get:**
-- Early access before the public release
-- Direct line to the engineering team — your feedback shapes the product
-- Full product free for 1 year when v1.0 ships
-
-**What we're looking for:**
-- Entra ID administrators, security engineers, or MSPs managing one or more tenants
-- Any tenant size from small orgs to large enterprises
-
-**Interested?** Reach out at [support@senserva.com](mailto:support@senserva.com) or start a conversation in [Discussions](../../discussions).
-
 ---
 
 ## What Is Siemserva?
@@ -94,7 +84,7 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 **Six AI-Enhanced HTML Report Types** — Detailed, Compliance, Business Focused Review, Remediation, Audit, and Portfolio. Self-contained HTML with embedded charts, risk heatmaps, and compliance scorecards. One keystroke (Ctrl+R), no dependencies — opens in any browser, prints to PDF.
 
-**Scan, Pipe, Automate (SDK Beta 4)** — split into two composable halves: --scan outputs NDJSON, --reporter consumes any NDJSON source. Full headless pipeline, multi-source dashboard merging, and Maester connector included. Query the SQLite graph database (79 edge types, 341 tables) in C#, Python, or PowerShell.
+**Scan, Pipe, Automate** — split into two composable halves: --scan outputs NDJSON, --reporter consumes any NDJSON source. Full headless pipeline, multi-source dashboard merging, and Maester connector included. Query the SQLite graph database (79 edge types, 341 tables) in C#, Python, or PowerShell.
 
 **No Agents Required** — read-only access via Microsoft Graph API. Nothing to install on your tenant. All data stays local — no security data transmitted to Senserva or any third party.
 
@@ -122,4 +112,4 @@ We prefer public issues and discussions so that other users can benefit from the
 
 Siemserva is built by [Senserva](https://senserva.com), a security company focused on Microsoft Entra ID protection. We build tools that make enterprise identity security accessible, actionable, and thorough.
 
-**Product website:** [https://siemserva.senserva.com/](https://siemserva.senserva.com/)
+**Product website:** [https://siemserva.senserva.com/](https://senserva.com/)
