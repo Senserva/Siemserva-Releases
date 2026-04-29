@@ -127,7 +127,7 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 **Live Interactive Dashboard** — full-screen terminal dashboard where findings stream in real time as the scan runs. Severity-coded, searchable, with drill-down details and compliance context on every finding. Delta view shows net-new issues since your last scan.
 
-**SIEM Mode** — continuous monitoring with scheduled scan cycles, multi-tenant support, and automated email alerts for new Critical and High findings.
+**SIEM Mode** — continuous monitoring with scheduled scan cycles, multi-tenant support.
 
 **Agentic AI-Powered Analysis** — context-aware insights, remediation recommendations, and production-ready PowerShell script generation (press P on any finding). Full Scan Analysis for executive and technical summaries, Context-Sensitive Q&A in natural language, and Security Insights on any tab. Direct streaming via the Anthropic Claude API, or copy-paste friendly for any AI tool. Grounded in 170+ engineer-authored remediation guides.
 
@@ -155,7 +155,7 @@ Siemserva audits **all of them** in a single scan. No agents to deploy. No compl
 
 We prefer public issues and discussions so that other users can benefit from the conversation. Only use email for reports that would reveal confidential information about your organization.
 
-**When reporting issues:** Include your Siemserva version (`siemserva --version` or the About tab) and platform. Do not share tenant IDs, user names, or other personally identifiable information.
+**When reporting issues:** Do not share tenant IDs, user names, or other personally identifiable information.
 
 ---
 
