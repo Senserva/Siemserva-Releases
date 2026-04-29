@@ -5,30 +5,81 @@
 
 # Siemserva
 
-The biggest risks are the ones you don't know about. Siemserva works continuously to find them, plus many other issues, helps you fix them, and gives auditors what they need on the first pass.
+**The biggest risks are the ones you don't know about.** Siemserva works continuously to find them, plus many other issues, helps you fix them, and gives auditors what they need on the first pass.
 
-Senserva's Security Context Graph, Analysis and Recommendations combined with Senserva's Trustworthy AI provide continuous security assurance and remediation for Microsoft 365, Intune and Entra ID:
+Senserva's Security Context Graph, Analysis and Recommendations, combined with Senserva's Trustworthy AI, provide continuous security assurance and remediation for Microsoft 365, Intune, and Entra ID.
 
-600+ hourly checks and log reviews tied to compliance standards, easily integrates with other tools
-Senserva Trustworthy AI creates rich reports and time saving remediation
-Built for Claude. MCP server for Claude Desktop and Code, or call Claude (or any AI) from inside Siemserva
-Industrial strength. 
+## Questions and Support
 
-## Siemserva is Free up to 100 users, $99/month for more. Free to Microsoft MVPs and MISA Members.
+Please use **[Issues](../../issues)** for bug reports and feature requests, and **[Discussions](../../discussions)** for questions, ideas, and Q&A. Keeping the conversation in the open lets everyone share ideas and answers, and helps the next person who runs into the same thing.
 
-# Running it is the best way to learn.
+## A note from the Senserva Team
 
-Please grab the latest release and download the zip for your platform.
+**Built with care. Used with confidence.**
 
-Run: ./siemserva-osx-arm64 --accept-eula --tenantids on Mac, use siemserva-win-x64 on Windows
+*We had a blast building Siemserva, and we hope you have just as much fun putting it to work. Go find the risks no one else can.*
 
-On Mac, run chmod +x siemserva-* first, or use the included run-siemserva.sh helper.
+*Happy hunting,*
+*The Senserva Team*
 
-Run without parameters to get an interactive setup guide. Run with -? to get basic parameters, --full-help to get detailed help files.
+## Why Siemserva
 
-If you are not ready to scan a test or working tenant please use our demo mode, it has a great database with very realistic data with well over 1000 users. Just run siemserva-osx-arm64, or siemserva-win-x64, without any parameters to set this up. 
+- **600+ hourly checks and log reviews** tied to compliance standards. Easily integrates with the tools you already run.
+- **Senserva Trustworthy AI** turns raw findings into rich reports and time-saving remediation.
+- **Built for Claude.** MCP server for Claude Desktop and Claude Code, or call Claude (or any AI) from inside Siemserva.
+- **Industrial strength.** Continuous, scalable, audit-ready.
 
-The demo supports both Claude as an MCP and Siemserva itself. Read SiemservaEvaluationGuide.pdf to get a review of the demo data. Running in demo mode is also good for training. Be sure to run with Claude Desktop if you can, it is a great way to study the data Siemserva creates.
+## Pricing
+
+**Siemserva is free up to 100 users.** Beyond that, $99/month covers unlimited users in your tenant.
+
+| Tier | Users | Price |
+|------|-------|-------|
+| Free | Up to 100 | $0 |
+| Standard | Unlimited | $99/month |
+| MVP / MISA | Unlimited | Free |
+| 501(c)(3) Non-Profit | Unlimited | Free |
+
+> Microsoft MVPs, Microsoft Intelligent Security Association (MISA) members, and registered 501(c)(3) non-profits get Siemserva free at every tier. If you qualify, email [info@senserva.com](mailto:info@senserva.com) with your MVP profile, MISA membership, or IRS determination letter to activate.
+> 
+## Try It Out
+
+Running it is the best way to learn. Grab the latest release and download the zip for your platform.
+
+### Run
+
+```bash
+# macOS
+./siemserva-osx-arm64 --accept-eula --tenantids <your-tenant-id>
+
+# Windows
+siemserva-win-x64.exe --accept-eula --tenantids <your-tenant-id>
+```
+
+On macOS, make the binary executable first:
+
+```bash
+chmod +x siemserva-*
+```
+
+…or use the included `run-siemserva.sh` helper.
+
+### Getting Help
+
+| Command | What it does |
+|---|---|
+| *(no parameters)* | Interactive setup guide |
+| `-?` | Basic parameters |
+| `--full-help` | Detailed help files |
+
+### Demo Mode
+
+> [!TIP]
+> **Not ready to scan a real tenant?** Run `siemserva-osx-arm64` or `siemserva-win-x64` with no parameters to launch demo mode — a realistic database with **1000+ users** baked in.
+
+Demo mode works with both **Claude (as an MCP)** and **Siemserva** directly. See `SiemservaEvaluationGuide.pdf` for a walkthrough of the demo data.
+
+It's also great for training. If you can, run it with **Claude Desktop** — it's the best way to explore the data Siemserva produces.
 
 > [!NOTE]
 > **Please Star and Follow Us** The team loves it and appreciates you for doing it!
