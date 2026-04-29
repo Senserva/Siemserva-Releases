@@ -13,7 +13,9 @@ Senserva's Security Context Graph, Analysis and Recommendations, combined with S
 >
 > Walk through the official **[Quick Start guide](https://senserva.com/quickstart)** at senserva.com/quickstart for the full setup, configuration, and first-scan walkthrough, or to use our advanced simulation as an easy start.
 >
-### The Siemserva advanced simulation
+### The advanced simulation
+
+We built the advanced simulation so you can fully evaluate Siemserva without touching a live tenant. Standing up Graph API permissions, getting change-management approval, or just figuring out what "bad" looks like in your own data can take days. The simulation gives you a known, realistic environment from minute one. Same data every run, so training, demos, and screenshots stay reproducible, and you can see exactly what Siemserva should find before you ever point it at production.
 
 The advanced simulation gives you a realistic Microsoft 365 and Entra ID tenant to explore, with planted scenarios you can hunt for, including:
 
@@ -23,7 +25,6 @@ The advanced simulation gives you a realistic Microsoft 365 and Entra ID tenant 
 - A **Storm-0558 style** token-theft scenario
 - A **helpdesk compromise** path through tiered admin roles
 - Risky Conditional Access gaps, suspicious sign-in signals, and over-permissioned apps
-
 ### Why start with the simulation
 
 Same data, every run. Perfect for training, demos, and getting comfortable with the dashboard, reports, and Claude MCP before you scan a live tenant.
