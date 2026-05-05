@@ -1,8 +1,6 @@
 name: Mirror Private Releases to Public
 
 on:
-  schedule:
-    - cron: '0 9 * * 1'  # Poll every Monday at 9am UTC
   workflow_dispatch:
 
 permissions:
