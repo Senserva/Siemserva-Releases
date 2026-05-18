@@ -96,10 +96,14 @@ jobs:
           sed -i '/^### Non-AOT Builds/,/^$/d' release-notes.txt
           sed -i '/^Unsigned AOT builds/d' release-notes.txt
 
-          # Collect signed zip assets only
+          # Collect exactly 3 assets: Windows ZIP, Mac ZIP, Windows EXE
           echo "$release" | jq -r '
             .assets[]
-            | select(.name | test("-signed\\.zip$"; "i"))
+            | select(
+                ((.name | test("win"; "i")) and (.name | test("-signed\\.zip$"; "i"))) or
+                ((.name | test("osx|mac"; "i")) and (.name | test("-signed\\.zip$"; "i"))) or
+                ((.name | test("win"; "i")) and (.name | test("\\.exe$"; "i")))
+              )
             | [.name, .url]
             | @tsv
           ' > assets.tsv
