@@ -41,6 +41,13 @@
       "tag": "TheRealRelease2",
       "whatsNew": "Siemserva TheRealRelease2",
       "mandatory": false
+    },
+    {
+      "version": "v1.0.20260518.36",
+      "tag": "v1.0.20260518.36",
+      "whatsNew": "v1.0.20260518.36",
+      "mandatory": false,
+      "sourceTag": "v0.0.0-dev.151"
     }
   ]
 }
