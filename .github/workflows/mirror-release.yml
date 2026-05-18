@@ -74,13 +74,17 @@ jobs:
           TAG=$(echo "$release" | jq -r '.tag_name')
           echo "Latest private release: $TAG"
 
-          # Skip if already published publicly
-          if grep -qxF "$TAG" public-tags.txt; then
+          # Generate local release version tag
+          LOCAL_TAG="v1.0.$(date +%Y%m%d).${{ github.run_number }}"
+          echo "Local release tag: $LOCAL_TAG"
+
+          # Skip if this private release has already been mirrored (tracked via sourceTag in version.json)
+          if jq -e --arg t "$TAG" '.releases[] | select(.sourceTag == $t)' version.json > /dev/null 2>&1; then
             echo "Already published: $TAG — nothing to do."
             exit 0
           fi
 
-          echo "=== Mirroring: $TAG ==="
+          echo "=== Mirroring: $TAG as $LOCAL_TAG ==="
 
           echo "$release" | jq -r '.name'       > release-title.txt
           echo "$release" | jq -r '.body // ""' > release-notes.txt
@@ -116,31 +120,30 @@ jobs:
               -o "./release-assets/$name"
           done < assets.tsv
 
-          # Append to version.json if this tag isn't already listed
-          if ! jq -e --arg t "$TAG" '.releases[] | select(.tag == $t)' version.json > /dev/null 2>&1; then
-            TITLE=$(cat release-title.txt)
-            NEW_ENTRY=$(jq -n \
-              --arg version  "$TITLE" \
-              --arg tag      "$TAG" \
-              --arg whatsNew "$TITLE" \
-              '{version: $version, tag: $tag, whatsNew: $whatsNew, mandatory: false}')
+          # Append to version.json (deduplication is handled above via sourceTag check)
+          TITLE="$LOCAL_TAG"
+          NEW_ENTRY=$(jq -n \
+            --arg version   "$LOCAL_TAG" \
+            --arg tag       "$LOCAL_TAG" \
+            --arg whatsNew  "$LOCAL_TAG" \
+            --arg sourceTag "$TAG" \
+            '{version: $version, tag: $tag, whatsNew: $whatsNew, mandatory: false, sourceTag: $sourceTag}')
 
-            jq --argjson e "$NEW_ENTRY" '.releases += [$e]' version.json > version.json.tmp
-            mv version.json.tmp version.json
+          jq --argjson e "$NEW_ENTRY" '.releases += [$e]' version.json > version.json.tmp
+          mv version.json.tmp version.json
 
-            git add version.json
-            git commit -m "chore: add $TAG to version.json"
-            git push
-          fi
+          git add version.json
+          git commit -m "chore: add $LOCAL_TAG to version.json"
+          git push
 
           # Publish the release
           PRERELEASE_FLAG=""
           [ "$IS_PRERELEASE" = "true" ] && PRERELEASE_FLAG="--prerelease"
 
-          gh release create "$TAG" \
-            --title "$(cat release-title.txt)" \
+          gh release create "$LOCAL_TAG" \
+            --title "$LOCAL_TAG" \
             --notes-file release-notes.txt \
             $PRERELEASE_FLAG \
             ./release-assets/*
 
-          echo "::notice::Published: $TAG"
+          echo "::notice::Published: $LOCAL_TAG"
