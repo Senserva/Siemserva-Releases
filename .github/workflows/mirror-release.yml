@@ -147,6 +147,7 @@ jobs:
           gh release create "$LOCAL_TAG" \
             --title "$LOCAL_TAG" \
             --notes-file release-notes.txt \
+            --draft \
             $PRERELEASE_FLAG \
             ./release-assets/*
 
