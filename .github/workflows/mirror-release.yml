@@ -97,7 +97,7 @@ jobs:
             | select(
                 ((.name | test("win"; "i")) and (.name | test("-signed\\.zip$"; "i"))) or
                 ((.name | test("osx|mac"; "i")) and (.name | test("-signed\\.zip$"; "i"))) or
-                ((.name | test("win"; "i")) and (.name | test("\\.exe$"; "i")))
+                ((.name | test("win"; "i")) and (.name | test("-signed\\.exe$"; "i")))
               )
             | [.name, .url]
             | @tsv
