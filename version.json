@@ -55,6 +55,13 @@
       "whatsNew": "v1.0.20260629.50",
       "mandatory": false,
       "sourceTag": "v0.0.0-dev.176"
+    },
+    {
+      "version": "v1.0.20260718.51",
+      "tag": "v1.0.20260718.51",
+      "whatsNew": "v1.0.20260718.51",
+      "mandatory": false,
+      "sourceTag": "v0.0.0-dev.184"
     }
   ]
 }
