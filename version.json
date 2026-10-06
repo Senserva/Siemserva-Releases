@@ -90,6 +90,13 @@
       "whatsNew": "v1.0.20261006.56",
       "mandatory": false,
       "sourceTag": "v0.0.0-dev.213"
+    },
+    {
+      "version": "v1.0.20261006.57",
+      "tag": "v1.0.20261006.57",
+      "whatsNew": "v1.0.20261006.57",
+      "mandatory": false,
+      "sourceTag": "v0.0.0-dev.218"
     }
   ]
 }
