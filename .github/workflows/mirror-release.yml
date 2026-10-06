@@ -63,11 +63,12 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # .[0] is the latest release (GitHub returns newest-first)
-          release=$(jq -c '.[0]' private-releases.json)
+          # Only consider published releases (drafts are excluded).
+          # GitHub returns newest-first, so .[0] of the filtered list is the latest published release.
+          release=$(jq -c '[.[] | select(.draft == false)] | .[0]' private-releases.json)
 
           if [ -z "$release" ] || [ "$release" = "null" ]; then
-            echo "No releases found in private repo."
+            echo "No published releases found in private repo."
             exit 0
           fi
 
